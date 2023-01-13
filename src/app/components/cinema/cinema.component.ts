@@ -13,7 +13,7 @@ export class CinemaComponent implements OnInit {
   currentCinema: any;
   rooms: any;
 
-  constructor(private cinemaService: CinemaService) {}
+  constructor(public cinemaService: CinemaService) {}
 
   ngOnInit() {
     this.cinemaService.getCities().subscribe((data) => {
@@ -32,6 +32,11 @@ export class CinemaComponent implements OnInit {
     this.currentCinema = cinema;
     this.cinemaService.getRooms(cinema).subscribe((data) => {
       this.rooms = data;
+      this.rooms._embedded.rooms.forEach((room: any) => {
+        this.cinemaService.getProjections(room).subscribe((data) => {
+          room.projections = data;
+        });
+      });
     });
   }
 }

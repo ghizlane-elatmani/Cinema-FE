@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class CinemaService {
   host: string = 'http://localhost:8080';
 
-  constructor(private http: HttpClient) {}
+  constructor(public http: HttpClient) {}
 
   public getCities() {
     return this.http.get(`${this.host}/cities`);
@@ -19,5 +19,10 @@ export class CinemaService {
 
   public getRooms(cinema: any) {
     return this.http.get(cinema._links.rooms.href);
+  }
+
+  public getProjections(room: any) {
+    let url = room._links.projections.href.replace('{?projection}', '');
+    return this.http.get(`${url}?projection=p1`);
   }
 }
