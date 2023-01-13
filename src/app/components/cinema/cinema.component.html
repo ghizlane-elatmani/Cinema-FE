@@ -3,14 +3,52 @@
     <div class="col-md-4">
       <ul *ngIf="cities" class="list-group">
         <li
+          [ngClass]="city == currentCity ? 'active' : ''"
           *ngFor="let city of cities._embedded.cities"
-          class="list-group-item"
+          class="list-group-item pointer"
+          (click)="onGetCinemas(city)"
         >
           {{ city.name }}
         </li>
       </ul>
     </div>
 
-    <div class="col-md-8">Cinema</div>
+    <div class="col-md-8">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="table-light" scope="col">Cinema List</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ul *ngIf="cinemas" class="nav nav-pills">
+            <li
+              class="nav_item pointer"
+              *ngFor="let cine of cinemas._embedded.cinemas"
+            >
+              <a
+                class="nav-link"
+                [ngClass]="cine == currentCinema ? 'active' : ''"
+                (click)="onGetRooms(cine)"
+                >{{ cine.name }}</a
+              >
+            </li>
+          </ul>
+
+          <div *ngIf="rooms" class="row">
+            <div *ngFor="let room of rooms._embedded.rooms">
+              <div class="card" style="width: 18rem">
+                <img src="..." class="card-img-top" alt="..." />
+                <div class="card-body">
+                  <h5 class="card-title">{{ room.name }}</h5>
+                  <p class="card-text"></p>
+                  <a href="#" class="btn btn-primary"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

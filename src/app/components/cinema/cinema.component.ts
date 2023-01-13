@@ -8,12 +8,30 @@ import { CinemaService } from 'src/app/services/cinema.service';
 })
 export class CinemaComponent implements OnInit {
   cities: any;
+  cinemas: any;
+  currentCity: any;
+  currentCinema: any;
+  rooms: any;
 
   constructor(private cinemaService: CinemaService) {}
 
   ngOnInit() {
     this.cinemaService.getCities().subscribe((data) => {
       this.cities = data;
+    });
+  }
+
+  onGetCinemas(city: any) {
+    this.currentCity = city;
+    this.cinemaService.getCinemas(city).subscribe((data) => {
+      this.cinemas = data;
+    });
+  }
+
+  onGetRooms(cinema: any) {
+    this.currentCinema = cinema;
+    this.cinemaService.getRooms(cinema).subscribe((data) => {
+      this.rooms = data;
     });
   }
 }
