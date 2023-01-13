@@ -1,1 +1,16 @@
-<p>cinema works!</p>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4">
+      <ul *ngIf="cities" class="list-group">
+        <li
+          *ngFor="let city of cities._embedded.cities"
+          class="list-group-item"
+        >
+          {{ city.name }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-8">Cinema</div>
+  </div>
+</div>
