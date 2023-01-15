@@ -11,6 +11,7 @@ export class CinemaComponent implements OnInit {
   cinemas: any;
   currentCity: any;
   currentCinema: any;
+  currentProjection: any;
   rooms: any;
 
   constructor(public cinemaService: CinemaService) {}
@@ -23,6 +24,7 @@ export class CinemaComponent implements OnInit {
 
   onGetCinemas(city: any) {
     this.currentCity = city;
+    this.rooms = undefined;
     this.cinemaService.getCinemas(city).subscribe((data) => {
       this.cinemas = data;
     });
@@ -37,6 +39,13 @@ export class CinemaComponent implements OnInit {
           room.projections = data;
         });
       });
+    });
+  }
+
+  onGetTicketPlaces(p: any) {
+    this.currentProjection = p;
+    this.cinemaService.getTicketPlaces(p).subscribe((data) => {
+      this.currentProjection.tickets = data;
     });
   }
 }

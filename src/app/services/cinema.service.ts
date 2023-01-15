@@ -25,4 +25,9 @@ export class CinemaService {
     let url = room._links.projections.href.replace('{?projection}', '');
     return this.http.get(`${url}?projection=p1`);
   }
+
+  public getTicketPlaces(projection: any) {
+    let url = projection._links.tickets.href.replace('{?projection}', '');
+    return this.http.get(`${url}?projection=ticketProj`);
+  }
 }

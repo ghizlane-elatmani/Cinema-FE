@@ -1,6 +1,6 @@
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <ul *ngIf="cities" class="list-group">
         <li
           [ngClass]="city == currentCity ? 'active' : ''"
@@ -13,7 +13,7 @@
       </ul>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-9">
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -36,21 +36,57 @@
           </ul>
 
           <div *ngIf="rooms" class="row">
-            <div *ngFor="let room of rooms._embedded.rooms" class="col-sm-6">
+            <div *ngFor="let room of rooms._embedded.rooms" class="col-sm-4">
               <!-- CARD -->
               <div class="card" *ngIf="room.projections">
                 <img
                   src="{{
                     cinemaService.host +
                       '/movieImage/' +
-                      room.projections._embedded.projections[5].movie.id
+                      room.projections._embedded.projections[0].movie.id
                   }}"
                   class="card-img-top"
                   alt="..."
                 />
                 <div class="card-body">
+                  <!-- SESSION NAME -->
                   <h5 class="card-title">{{ room.name }}</h5>
-                  <p class="card-text"></p>
+                  <!-- SESSION STARTTIME -->
+                  <div class="mb-2">
+                    <div
+                      class="btn-group btn-group-sm m-1"
+                      role="group"
+                      *ngFor="let p of room.projections._embedded.projections"
+                      (click)="onGetTicketPlaces(p)"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        [ngClass]="p == currentProjection ? 'active' : ''"
+                      >
+                        {{ p.session.startTime }} -
+                        {{ p.price | number : "0.00" }}DH
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="currentProjection">
+                    <div *ngIf="currentProjection.tickets">
+                      <div
+                        class="btn-group btn-group-sm"
+                        role="group"
+                        *ngFor="
+                          let ticket of currentProjection.tickets._embedded
+                            .tickets
+                        "
+                      >
+                        <button type="button" class="btn btn-primary">
+                          {{ ticket.place.number }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- SESSION CONFIRM BTN -->
                   <a href="#" class="btn btn-primary"></a>
                 </div>
               </div>
